@@ -1,0 +1,49 @@
+name: Django CI
+
+# Тригер на пуш до основної гілки або при запитах на злиття
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Завантаження коду
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Налаштування Python
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Обери версію Python, яку використовуєш
+
+    # Встановлення залежностей
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Запуск тестів (додай тести у проєкт, якщо ще немає)
+    - name: Run tests
+      run: |
+        python manage.py test
+
+    # Створення артефакту
+    - name: Create artifact
+      run: |
+        mkdir -p artifact
+        zip -r artifact/myproject.zip .  # Створюємо архів з усім проєктом
+
+    # Збереження артефакту для завантаження
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: django-project-artifact
+        path: artifact/myproject.zip
