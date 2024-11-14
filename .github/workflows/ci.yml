@@ -22,7 +22,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'  # Обери версію Python, яку використовуєш
+        python-version: '3.11'  # Обери версію Python, яку використовуєш
 
     # Встановлення залежностей
     - name: Install dependencies
