@@ -35,6 +35,15 @@ jobs:
       run: |
         python manage.py test
 
+    - name: Run tests and generate JUnit report
+      run: pytest --junitxml=report.xml
+
+    - name: Upload test report
+      uses: actions/upload-artifact@v4
+      with:
+        name: junit-test-report
+        path: report.xml
+
     # Створення артефакту
     - name: Create artifact
       run: |
